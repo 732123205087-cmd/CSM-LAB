@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - ToDo App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>To-Do App</h1>
+    <div class="form-box">
+      <h2>Login</h2>
+      <input type="text" id="loginUser" placeholder="Username" />
+      <input type="password" id="loginPass" placeholder="Password" />
+      <button onclick="login()">Login</button></red>
+      <p>Don't have an account? <a href="#" onclick="toggleForm()">Sign up</a></p>
+    </div>
+
+    <div class="form-box hidden" id="signupForm">
+      <h2>Sign Up</h2>
+      <input type="text" id="signupUser" placeholder="Choose a username" />
+      <input type="password" id="signupPass" placeholder="Choose a password" />
+      <button onclick="signup()">Sign Up</button>
+      <p>Already have an account? <a href="#" onclick="toggleForm()">Login</a></p>
+    </div>
+  </div>
+
+  <script>
+    function toggleForm() {
+      document.querySelector(".form-box").classList.toggle("hidden");
+      document.getElementById("signupForm").classList.toggle("hidden");
+    }
+
+    function signup() {
+      const username = document.getElementById("signupUser").value;
+      const password = document.getElementById("signupPass").value;
+
+      if (!username || !password) {
+        alert("Please fill all fields!");
+        return;
+      }
+
+      if (localStorage.getItem(username)) {
+        alert("User already exists!");
+        return;
+      }
+
+      localStorage.setItem(username, JSON.stringify({ password, todos: [] }));
+      alert("Signup successful! Please login.");
+      toggleForm();
+    }
+
+    function login() {
+      const username = document.getElementById("loginUser").value;
+      const password = document.getElementById("loginPass").value;
+
+      const userData = JSON.parse(localStorage.getItem(username));
+
+      if (!userData || userData.password !== password) {
+        alert("Invalid credentials!");
+        return;
+      }
+
+      localStorage.setItem("loggedInUser", username);
+      window.location.href = "todo.html";
+    }
+  </script>
+</body>
+</html>
+
+
+<!-- C:\Users\Admin\Documents\homeService\web host.html -->
